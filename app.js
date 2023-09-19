@@ -24,5 +24,4 @@ window.addEventListener('DOMContentLoaded', async () => {
   app.router.init();
 
   await loadData();
-  renderTest();
 });
