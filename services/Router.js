@@ -1,23 +1,38 @@
+function moveScrollToTop() {
+  window.scrollX = 0;
+  window.screenY = 0;
+}
+
 function changeMainContent(childElement) {
   document.querySelector('main').innerHTML = '';
   document.querySelector('main').appendChild(childElement);
 }
 
+function handleBackButtonPress() {
+  window.addEventListener('popstate', (event) => {
+    Router.go(event.state.route, false);
+  });
+}
+
+function setupLinks() {
+  document.querySelectorAll('a.navlink').forEach((a) => {
+    a.addEventListener('click', (event) => {
+      event.preventDefault();
+      const href = event.target.getAttribute('href');
+      Router.go(href);
+    });
+  });
+}
+
 const Router = {
   init: () => {
-    document.querySelectorAll('a.navlink').forEach((a) => {
-      a.addEventListener('click', (event) => {
-        event.preventDefault();
-        const href = event.target.getAttribute('href');
-        Router.go(href);
-      });
-    });
+    setupLinks();
+    handleBackButtonPress();
+
     // Process initial URL
     Router.go(location.pathname);
   },
   go: (route, addToHistory = true) => {
-    console.log('current router: ', route);
-
     if (addToHistory) {
       history.pushState({ route }, '', route);
     }
@@ -48,7 +63,7 @@ const Router = {
       changeMainContent(pageElement);
     }
 
-    window.scrollX = 0;
+    moveScrollToTop();
   },
 };
 
