@@ -1,3 +1,8 @@
+function changeMainContent(childElement) {
+  document.querySelector('main').innerHTML = '';
+  document.querySelector('main').appendChild(childElement);
+}
+
 const Router = {
   init: () => {
     document.querySelectorAll('a.navlink').forEach((a) => {
@@ -40,8 +45,7 @@ const Router = {
     }
 
     if (pageElement) {
-      document.querySelector('main').innerHTML = '';
-      document.querySelector('main').appendChild(pageElement);
+      changeMainContent(pageElement);
     }
 
     window.scrollX = 0;
