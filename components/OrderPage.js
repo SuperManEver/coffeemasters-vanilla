@@ -4,4 +4,4 @@ export default class OrderPage extends HTMLElement {
   }
 }
 
-customElements.define('order-page', DetailsPage);
+customElements.define('order-page', OrderPage);
