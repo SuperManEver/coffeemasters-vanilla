@@ -3,6 +3,19 @@ export default class MenuPage extends HTMLElement {
     super();
 
     this.root = this.attachShadow({ mode: 'open' });
+
+    this.styles = document.createElement('style');
+
+    this.root.appendChild(this.styles);
+
+    this.loadCSS();
+  }
+
+  async loadCSS() {
+    const request = await fetch('/components/MenuPage.css');
+    const css = await request.text();
+
+    this.styles.textContent = css;
   }
 
   connectedCallback() {
