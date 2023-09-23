@@ -23,6 +23,35 @@ export default class MenuPage extends HTMLElement {
     const content = template.content.cloneNode(true);
 
     this.root.appendChild(content);
+
+    window.addEventListener('appmenuchange', () => {
+      this.render();
+    });
+
+    this.render();
+  }
+
+  render() {
+    if (!window.app) {
+      return;
+    }
+
+    if (window.app.store.menu) {
+      this.root.querySelector('#menu').innerHTML = '';
+
+      for (let category of app.store.menu) {
+        const liCategory = document.createElement('li');
+        liCategory.innerHTML = `
+                <h3>${category.name}</h3>
+                <ul class='category'>
+                </ul>`;
+        this.root.querySelector('#menu').appendChild(liCategory);
+
+        // TODO: placeholder
+      }
+    } else {
+      this.root.querySelector('#menu').innerHTML = 'Loading';
+    }
   }
 }
 
