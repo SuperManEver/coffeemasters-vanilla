@@ -1,4 +1,10 @@
 export default class OrderPage extends HTMLElement {
+  #user = {
+    name: '',
+    phone: '',
+    email: '',
+  };
+
   constructor() {
     super();
 
@@ -22,8 +28,47 @@ export default class OrderPage extends HTMLElement {
     this.render();
   }
 
+  setFormBindings(form) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      alert(
+        `Thanks for your order ${this.#user.name}. ${
+          this.#user.email
+            ? 'We will be sending you the receipt over email.'
+            : 'Ask at the counter for a receipt.'
+        }`,
+      );
+      this.#user.name = '';
+      this.#user.email = '';
+      this.#user.phone = '';
+
+      // TODO: sent user and cart's details to the server
+    });
+
+    // Set double data binding
+    Array.from(form.elements).forEach((element) => {
+      if (element.name) {
+        element.addEventListener('change', (event) => {
+          this.#user[element.name] = element.value;
+        });
+      }
+    });
+    this.#user = new Proxy(this.#user, {
+      set(target, property, value) {
+        target[property] = value;
+        form.elements[property].value = value;
+        return true;
+      },
+    });
+  }
+
   render() {
     let section = this.root.querySelector('section');
+
+    // this.setFormBindings(this.root.querySelector('form'));
+
+    this.setFormBindings(section);
+
     if (app.store.cart.length == 0) {
       section.innerHTML = `
           <p class="empty">Your order is empty</p>
