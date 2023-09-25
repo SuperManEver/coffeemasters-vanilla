@@ -7,6 +7,8 @@ import Router from './services/Router.js';
 import MenuPage from './components/MenuPage.js';
 import OrderPage from './components/OrderPage.js';
 import DetailsPage from './components/DetailsPage.js';
+import ProductItem from './components/ProductItem.js';
+import CartItem from './components/CartItem.js';
 
 window.app = {};
 app.store = Store;
